@@ -8,37 +8,39 @@
 
     <!-- ===================== ESTILOS ===================== -->
     <style>
-        /* (estilos iguais aos seus; mantidos sem alterações) */
+        /* Fontes */
         @font-face {
             font-family: 'Futura';
-            src: url('../fonts/futura.woff') format('woff')
+            src: url('../fonts/futura.woff') format('woff');
         }
 
         @font-face {
             font-family: 'FuturaHeavy';
-            src: url('../fonts/futura-heavy.woff') format('woff')
+            src: url('../fonts/futura-heavy.woff') format('woff');
         }
 
+        /* Reset */
         *,
         *::before,
         *::after {
             box-sizing: border-box;
             margin: 0;
-            padding: 0
+            padding: 0;
         }
 
         body,
         input,
         select,
         button {
-            font-family: 'Futura', sans-serif
+            font-family: 'Futura', sans-serif;
         }
 
         body {
             background: #f5f8fb;
-            color: #005ca9
+            color: #005ca9;
         }
 
+        /* Header fixo */
         header {
             position: fixed;
             top: 0;
@@ -52,9 +54,10 @@
             padding-left: 24px;
             font-family: 'FuturaHeavy';
             box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
-            z-index: 1000
+            z-index: 1000;
         }
 
+        /* Container principal */
         .container {
             width: 840px;
             max-width: 92%;
@@ -63,50 +66,51 @@
             padding: 28px;
             border-radius: 10px;
             box-shadow: 0 0 12px rgba(0, 0, 0, .08);
-            animation: fade .5s
+            animation: fade .5s;
         }
 
         @keyframes fade {
             from {
-                opacity: 0
+                opacity: 0;
             }
 
             to {
-                opacity: 1
+                opacity: 1;
             }
         }
 
         h1 {
             text-align: center;
             font-family: 'FuturaHeavy';
-            margin-bottom: 24px
+            margin-bottom: 24px;
         }
 
+        /* Formulário */
         .form-row {
             display: flex;
             flex-wrap: wrap;
             gap: 24px;
-            margin-bottom: 18px
+            margin-bottom: 18px;
         }
 
         .form-row>div {
             flex: 1 1 250px;
             display: flex;
-            flex-direction: column
+            flex-direction: column;
         }
 
         .form-row .cnpj-field {
-            max-width: 320px
+            max-width: 320px;
         }
 
         label {
             font-weight: 600;
-            margin-bottom: 6px
+            margin-bottom: 6px;
         }
 
         label span {
             color: #888;
-            margin-left: 4px
+            margin-left: 4px;
         }
 
         input,
@@ -115,19 +119,20 @@
             border: 1px solid #c9d4e3;
             border-radius: 6px;
             font-size: .92em;
-            transition: border .25s
+            transition: border .25s;
         }
 
         input:focus,
         select:focus {
             border-color: #005ca9;
-            outline: none
+            outline: none;
         }
 
+        /* Botão */
         .button-container {
             display: flex;
             justify-content: flex-end;
-            margin-top: 12px
+            margin-top: 12px;
         }
 
         button {
@@ -138,17 +143,17 @@
             border-radius: 6px;
             font-size: 1em;
             cursor: pointer;
-            transition: background .3s
+            transition: background .3s;
         }
 
         button:hover {
-            background: #004a8a
+            background: #004a8a;
         }
 
         button.loading {
             position: relative;
             pointer-events: none;
-            opacity: .7
+            opacity: .7;
         }
 
         button.loading::after {
@@ -160,15 +165,16 @@
             border: 2px solid #fff;
             border-top-color: transparent;
             border-radius: 50%;
-            animation: spin .8s linear infinite
+            animation: spin .8s linear infinite;
         }
 
         @keyframes spin {
             to {
-                transform: rotate(360deg)
+                transform: rotate(360deg);
             }
         }
 
+        /* Overlay processamento */
         .overlay {
             position: fixed;
             inset: 0;
@@ -180,11 +186,11 @@
             justify-content: center;
             font-size: 1.1em;
             color: #005ca9;
-            z-index: 2000
+            z-index: 2000;
         }
 
         .overlay.hidden {
-            display: none
+            display: none;
         }
 
         .spinner {
@@ -193,19 +199,20 @@
             border: 4px solid #005ca9;
             border-top-color: transparent;
             border-radius: 50%;
-            animation: spin 1s linear infinite
+            animation: spin 1s linear infinite;
         }
 
+        /* Benchmark */
         #benchmarkContainer {
             margin-top: 26px;
-            text-align: center
+            text-align: center;
         }
 
         .percent-box {
             font-size: 3.2rem;
             font-family: 'FuturaHeavy';
             color: #005ca9;
-            margin-bottom: 6px
+            margin-bottom: 6px;
         }
 
         .progress-bar {
@@ -215,7 +222,7 @@
             background: #e1ecf7;
             border-radius: 7px;
             margin: 0 auto 18px;
-            overflow: hidden
+            overflow: hidden;
         }
 
         .progress-fill {
@@ -223,15 +230,16 @@
             width: 0;
             background: #45b36b;
             border-radius: inherit;
-            transition: width 1s
+            transition: width 1s;
         }
 
+        /* Cards */
         .cards {
             display: flex;
             flex-wrap: wrap;
             gap: 16px;
             justify-content: center;
-            margin-top: 12px
+            margin-top: 12px;
         }
 
         .card {
@@ -239,39 +247,40 @@
             background: #f8fbff;
             border: 1px solid #d5e1f2;
             border-radius: 8px;
-            padding: 12px
+            padding: 12px;
         }
 
         .card h4 {
             font-size: 1em;
             font-weight: 600;
             margin-bottom: 6px;
-            color: #005ca9
+            color: #005ca9;
         }
 
         .card p {
             font-size: .9em;
             margin: 2px 0;
-            color: #333
+            color: #333;
         }
 
+        /* Mensagens */
         .msg {
             padding: 14px;
             background: #fff5d8;
             border: 1px solid #ffeaa3;
             border-radius: 6px;
             color: #7f6614;
-            margin: 20px 0
+            margin: 20px 0;
         }
 
         .disclaimer {
             font-size: .82em;
             color: #5f6d7c;
             text-align: center;
-            margin-top: 34px
+            margin-top: 34px;
         }
 
-        /* — Seção dedicada aos contratos próprios — */
+        /* Seção contratos do próprio CNPJ */
         .section-own {
             margin-top: 36px;
             background: #f2f6ff;
@@ -298,7 +307,7 @@
             margin-top: -6px;
             margin-bottom: 20px;
             color: var(--azul);
-            font-size: 1.05rem
+            font-size: 1.05rem;
         }
     </style>
 </head>
@@ -352,19 +361,14 @@
                 </div>
             </div>
 
-            <!-- Botão -->
             <div class="button-container"><button id="submitBtn" type="submit">Enviar</button></div>
         </form>
 
-        <!-- Benchmark & Resultado -->
         <div id="benchmarkContainer"></div>
         <div id="resultadoContainer"></div>
-
-        <!-- Disclaimer -->
         <p id="disclaimer" class="disclaimer"></p>
     </div>
 
-    <!-- Overlay -->
     <div id="overlay" class="overlay hidden">
         <div class="spinner"></div>
         <p>Analisando mercado...</p>
@@ -373,18 +377,20 @@
     <!-- ===================== SCRIPTS ===================== -->
     <script>
         (function () {
+            /* ----- Referências DOM ----- */
             const form = document.getElementById('radarForm');
             const btn = document.getElementById('submitBtn');
-            const resultado = document.getElementById('resultadoContainer');
             const benchmark = document.getElementById('benchmarkContainer');
+            const resultado = document.getElementById('resultadoContainer');
             const overlay = document.getElementById('overlay');
             const disclaimer = document.getElementById('disclaimer');
 
-            /* ------- Máscaras ------- */
+            /* ----- Máscaras ----- */
             document.getElementById('cnpj').addEventListener('input', maskCNPJ);
             ['spreadCaixa', 'spreadBNDES'].forEach(id => {
                 document.getElementById(id).addEventListener('input', maskPercent);
             });
+
             function maskCNPJ() {
                 let v = this.value.replace(/\D/g, '').slice(0, 14);
                 v = v.replace(/(\d{2})(\d)/, '$1.$2')
@@ -401,39 +407,26 @@
                 this.value = num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
             }
 
+            /* ----- Demonstração: valores default ----- */
             window.addEventListener('DOMContentLoaded', () => {
-                /* define valores brutos… depois aplica as máscaras */
                 const cnpj = document.getElementById('cnpj');
                 const linha = document.getElementById('linha');
                 const porte = document.getElementById('porte');
                 const spreadCaixa = document.getElementById('spreadCaixa');
                 const spreadBNDES = document.getElementById('spreadBNDES');
 
-                cnpj.value = '09596437000104';
-                maskCNPJ.call(cnpj);
-
+                cnpj.value = '09596437000104'; maskCNPJ.call(cnpj);
                 linha.value = 'BNDES Finame';
                 porte.value = 'Micro';
-
-                spreadCaixa.value = '370';
-                maskPercent.call(spreadCaixa);
-
-                spreadBNDES.value = '145';
-                maskPercent.call(spreadBNDES);
+                spreadCaixa.value = '370'; maskPercent.call(spreadCaixa);
+                spreadBNDES.value = '145'; maskPercent.call(spreadBNDES);
             });
 
-            /* ------- Fake APIs ------- */
+            /* ----- Dados fake ----- */
             const sampleContracts = [
                 { cliente: 'NOVA FORNECEDORA CORINTHIANS LTDA', valor_da_operacao_em_reais: 9000, juros: 8.0, data_da_contratacao: '17/01/2011', instituicao_financeira_credenciada: 'BANCO BRADESCO S.A.' },
                 { cliente: 'NOVA FORNECEDORA CORINTHIANS LTDA', valor_da_operacao_em_reais: 99000, juros: 8.0, data_da_contratacao: '07/02/2011', instituicao_financeira_credenciada: 'BANCO BRADESCO S.A.' },
                 { cliente: 'NOVA FORNECEDORA CORINTHIANS LTDA', valor_da_operacao_em_reais: 82952, juros: 9.5, data_da_contratacao: '28/04/2015', instituicao_financeira_credenciada: 'BANCO VOLKSWAGEN S.A.' }
-            ];
-
-            /* >>>> NOVO JSON COM OUTRAS EMPRESAS (similarContracts) <<<< */
-            const similarContractsData = [
-                { cliente: 'ACME INDÚSTRIA DE PLÁSTICOS LTDA', valor_da_operacao_em_reais: 85000, juros: 5.15, data_da_contratacao: '12/03/2024', instituicao_financeira_credenciada: 'BANCO DO BRASIL S.A.' },
-                { cliente: 'SOLAR ENERGIA VERDE EIRELI', valor_da_operacao_em_reais: 120000, juros: 5.15, data_da_contratacao: '04/08/2023', instituicao_financeira_credenciada: 'BANCO SANTANDER (BRASIL) S.A.' },
-                { cliente: 'FÁBRICA DE BICICLETAS PEDAL FORTE S/A', valor_da_operacao_em_reais: 45000, juros: 5.15, data_da_contratacao: '15/11/2022', instituicao_financeira_credenciada: 'ITAÚ UNIBANCO S.A.' },
             ];
 
             function fakeContractsApi(payload) {
@@ -442,20 +435,37 @@
                     () => r({ ok: true, data: normalize(payload.cnpj) === '09596437000104' ? sampleContracts : [] }), 800));
             }
 
-            /* fakeBenchmarkApi AGORA USA similarContractsData */
+            /* ----- Benchmark já pronto (simulando API REST) ----- */
             function fakeBenchmarkApi() {
-                return new Promise(r => setTimeout(() => {
-                    const better = Math.floor(Math.random() * 9) + 90;          // 90–98 %
-                    const shuffled = [...similarContractsData].sort(() => 0.5 - Math.random());
-                    r({ ok: true, betterPercent: better, similarContracts: shuffled.slice(0, 3) });
-                }, 1100));
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        resolve({
+                            ok: true,
+                            betterPercent: 97,
+                            stats: {
+                                average: 5.33,           // média
+                                median: 5.20,            // mediana
+                                minRate: 4.87, minBank: 'BANCO DO BRASIL S.A.',
+                                maxRate: 7.10, maxBank: 'BANCO SANTANDER (BRASIL) S.A.'
+                            },
+                            similarContracts: [
+                                { cliente: 'ACME INDÚSTRIA DE PLÁSTICOS LTDA', valor_da_operacao_em_reais: 85000, juros: 5.15, data_da_contratacao: '12/03/2024', instituicao_financeira_credenciada: 'BANCO DO BRASIL S.A.' },
+                                { cliente: 'SOLAR ENERGIA VERDE EIRELI', valor_da_operacao_em_reais: 120000, juros: 5.15, data_da_contratacao: '04/08/2023', instituicao_financeira_credenciada: 'BANCO SANTANDER (BRASIL) S.A.' },
+                                { cliente: 'FÁBRICA DE BICICLETAS PEDAL FORTE S/A', valor_da_operacao_em_reais: 45000, juros: 5.15, data_da_contratacao: '15/11/2022', instituicao_financeira_credenciada: 'ITAÚ UNIBANCO S.A.' }
+                            ]
+                        });
+                    }, 1100);
+                });
             }
 
             function fakeMetaApi() {
                 return new Promise(r => setTimeout(() => r({ ok: true, updatedAt: '31/05/2025' }), 600));
             }
 
-            /* ------- Util ------- */
+            /* ----- Utilidades ----- */
+            const fmt = n => n.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            function money(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }); }
+
             function animateCounter(el, target) {
                 let current = 0;
                 const step = Math.ceil(target / 40);
@@ -465,17 +475,15 @@
                     el.textContent = `${current}%`;
                 }, 20);
             }
-            function money(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }); }
 
-            /* ------- Disclaimer ------- */
+            /* ----- Disclaimer: data da base ----- */
             (async () => {
                 const meta = await fakeMetaApi();
-                if (meta.ok) {
+                if (meta.ok)
                     disclaimer.textContent = `Informações obtidas através dos dados abertos BNDES – atualizado em ${meta.updatedAt}`;
-                }
             })();
 
-            /* ------- Submit ------- */
+            /* ----- Submit ----- */
             form.addEventListener('submit', async e => {
                 e.preventDefault();
                 if (!form.checkValidity()) { form.reportValidity(); return; }
@@ -500,17 +508,26 @@
 
                     /* ---- Benchmark ---- */
                     if (benchResp.ok) {
-                        const totalTaxa = (payload.spreadCaixa + payload.spreadBNDES)
-                            .toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        const totalTaxa = fmt(payload.spreadCaixa + payload.spreadBNDES);
+                        const s = benchResp.stats;
+
                         benchmark.innerHTML = `
-                <div class="percent-box" id="percentBox">0%</div>
-                <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
-                <p>Sua taxa total de <strong>${totalTaxa}% a.a.</strong><br>
-                   está melhor que <strong id="percentText">${benchResp.betterPercent}%</strong> dos contratos
-                   para <strong>${payload.linha}</strong>, porte <strong>${payload.porte}</strong>.</p>
-                <h3 style="margin-top:22px">Empresas que contrataram nesse spread</h3>
-                <div class="cards" id="cardsSimilares"></div>
-            `;
+<div class="percent-box" id="percentBox">0%</div>
+<div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+
+<p>Sua taxa total de <strong>${totalTaxa}% a.a.</strong><br>
+   está melhor que <strong id="percentText">${benchResp.betterPercent}%</strong> dos contratos
+   para <strong>${payload.linha}</strong>, porte <strong>${payload.porte}</strong>.</p>
+
+<p style="margin-top:12px">
+   A média para essa linha e porte é de <strong>${fmt(s.average)}% a.a.</strong><br>
+   A mediana é de <strong>${fmt(s.median)}% a.a.</strong><br>
+   A menor taxa é de <strong>${fmt(s.minRate)}% a.a.</strong> no <strong>${s.minBank}</strong><br>
+   A maior taxa é de <strong>${fmt(s.maxRate)}% a.a.</strong> no <strong>${s.maxBank}</strong>
+</p>
+
+<h3 style="margin-top:22px">Empresas que contrataram nesse spread</h3>
+<div class="cards" id="cardsSimilares"></div>`;
                         animateCounter(document.getElementById('percentBox'), benchResp.betterPercent);
                         document.getElementById('progressFill').style.width = benchResp.betterPercent + '%';
 
@@ -529,7 +546,13 @@
                         resultado.innerHTML = '<div class="msg">Este CNPJ não possui contratos registrados no BNDES.</div>';
                         return;
                     }
-                    resultado.innerHTML = '<section class="section-own"><h3 style="margin:26px 0 10px;text-align:center">Contratos existentes do CNPJ, Linha e Porte consultado</h3><div class="cards" id="cardsCNPJ"></div></section>';
+                    resultado.innerHTML = `
+<section class="section-own">
+    <h3 style="margin:26px 0 10px;text-align:center">
+        Contratos existentes do CNPJ, Linha e Porte consultado
+    </h3>
+    <div class="cards" id="cardsCNPJ"></div>
+</section>`;
                     const cardsC = document.getElementById('cardsCNPJ');
                     contractsResp.data.forEach(c => cardsC.insertAdjacentHTML('beforeend', cardHTML(c)));
 
@@ -540,16 +563,16 @@
                 }
             });
 
-            /* ------- Card template ------- */
+            /* ----- Template Card ----- */
             function cardHTML(c) {
                 return `
-        <div class="card">
-            <h4>${c.cliente}</h4>
-            <p><strong>Valor:</strong> ${money(c.valor_da_operacao_em_reais)}</p>
-            <p><strong>Taxa:</strong> ${c.juros.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}% a.a.</p>
-            <p><strong>Data:</strong> ${c.data_da_contratacao}</p>
-            <p><strong>Banco:</strong> ${c.instituicao_financeira_credenciada}</p>
-        </div>`;
+<div class="card">
+    <h4>${c.cliente}</h4>
+    <p><strong>Valor:</strong> ${money(c.valor_da_operacao_em_reais)}</p>
+    <p><strong>Taxa:</strong> ${fmt(c.juros)}% a.a.</p>
+    <p><strong>Data:</strong> ${c.data_da_contratacao}</p>
+    <p><strong>Banco:</strong> ${c.instituicao_financeira_credenciada}</p>
+</div>`;
             }
         })();
     </script>
