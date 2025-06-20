@@ -1,292 +1,508 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Radar BNDES – MVP</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Radar BNDES – MVP</title>
 
-<!-- ===================== ESTILOS ===================== -->
-<style>
-@font-face{font-family:'Futura';src:url('../fonts/futura.woff') format('woff')}
-@font-face{font-family:'FuturaHeavy';src:url('../fonts/futura-heavy.woff') format('woff')}
+    <!-- ===================== ESTILOS ===================== -->
+    <style>
+        /* (estilos iguais aos seus; mantidos sem alterações) */
+        @font-face {
+            font-family: 'Futura';
+            src: url('../fonts/futura.woff') format('woff')
+        }
 
-/* Reset */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body,input,select,button{font-family:'Futura',sans-serif}
-body{background:#f5f8fb;color:#005ca9}
+        @font-face {
+            font-family: 'FuturaHeavy';
+            src: url('../fonts/futura-heavy.woff') format('woff')
+        }
 
-/* Header */
-header{position:fixed;top:0;left:0;width:100%;height:64px;background:#005ca9;color:#fff;
-        display:flex;align-items:center;padding-left:24px;font-family:'FuturaHeavy';
-        box-shadow:0 2px 4px rgba(0,0,0,.1);z-index:1000}
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0
+        }
 
-/* Container */
-.container{width:840px;max-width:92%;margin:110px auto 40px;background:#fff;padding:28px;
-            border-radius:10px;box-shadow:0 0 12px rgba(0,0,0,.08);animation:fade .5s}
-@keyframes fade{from{opacity:0}to{opacity:1}}
-h1{text-align:center;font-family:'FuturaHeavy';margin-bottom:24px}
+        body,
+        input,
+        select,
+        button {
+            font-family: 'Futura', sans-serif
+        }
 
-/* Formulário */
-.form-row{display:flex;flex-wrap:wrap;gap:24px;margin-bottom:18px}
-.form-row>div{flex:1 1 250px;display:flex;flex-direction:column}
-.form-row .cnpj-field{max-width:320px}
-label{font-weight:600;margin-bottom:6px}
-label span{color:#888;margin-left:4px}
-input,select{padding:11px;border:1px solid #c9d4e3;border-radius:6px;font-size:.92em;transition:border .25s}
-input:focus,select:focus{border-color:#005ca9;outline:none}
-.button-container{display:flex;justify-content:flex-end;margin-top:12px}
-button{padding:12px 28px;background:#005ca9;color:#fff;border:none;border-radius:6px;font-size:1em;cursor:pointer;transition:background .3s}
-button:hover{background:#004a8a}
-button.loading{position:relative;pointer-events:none;opacity:.7}
-button.loading::after{content:"";position:absolute;right:20px;width:18px;height:18px;border:2px solid #fff;border-top-color:transparent;border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
+        body {
+            background: #f5f8fb;
+            color: #005ca9
+        }
 
-/* Overlay */
-.overlay{position:fixed;inset:0;background:rgba(255,255,255,.85);
-         display:flex;flex-direction:column;gap:14px;align-items:center;justify-content:center;
-         font-size:1.1em;color:#005ca9;z-index:2000}
-.overlay.hidden{display:none}
-.spinner{width:42px;height:42px;border:4px solid #005ca9;border-top-color:transparent;border-radius:50%;animation:spin 1s linear infinite}
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 64px;
+            background: #005ca9;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            padding-left: 24px;
+            font-family: 'FuturaHeavy';
+            box-shadow: 0 2px 4px rgba(0, 0, 0, .1);
+            z-index: 1000
+        }
 
-/* Benchmark / Cards */
-#benchmarkContainer{margin-top:26px;text-align:center}
-.percent-box{font-size:3.2rem;font-family:'FuturaHeavy';color:#005ca9;margin-bottom:6px}
-.progress-bar{width:100%;max-width:440px;height:14px;background:#e1ecf7;border-radius:7px;margin:0 auto 18px;overflow:hidden}
-.progress-fill{height:100%;width:0;background:#45b36b;border-radius:inherit;transition:width 1s}
-.cards{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;margin-top:12px}
-.card{flex:1 1 260px;background:#f8fbff;border:1px solid #d5e1f2;border-radius:8px;padding:12px}
-.card h4{font-size:1em;font-weight:600;margin-bottom:6px;color:#005ca9}
-.card p{font-size:.9em;margin:2px 0;color:#333}
+        .container {
+            width: 840px;
+            max-width: 92%;
+            margin: 110px auto 40px;
+            background: #fff;
+            padding: 28px;
+            border-radius: 10px;
+            box-shadow: 0 0 12px rgba(0, 0, 0, .08);
+            animation: fade .5s
+        }
 
-/* Mensagem */
-.msg{padding:14px;background:#fff5d8;border:1px solid #ffeaa3;border-radius:6px;color:#7f6614;margin:20px 0}
+        @keyframes fade {
+            from {
+                opacity: 0
+            }
 
-/* Disclaimer */
-.disclaimer{font-size:.82em;color:#5f6d7c;text-align:center;margin-top:34px}
+            to {
+                opacity: 1
+            }
+        }
 
-/* — Seção dedicada aos contratos próprios — */
-.section-own{
-  margin-top:36px;
-  background:#f2f6ff;
-  border:1px solid #d2defb;
-  border-radius:12px;
-  padding:24px 18px 28px;
-  position:relative;
-}
+        h1 {
+            text-align: center;
+            font-family: 'FuturaHeavy';
+            margin-bottom: 24px
+        }
 
-/* faixa azul no topo */
-.section-own::before{
-  content:"";
-  position:absolute;
-  top:0; left:0; right:0;
-  height:6px;
-  background:var(--azul);
-  border-top-left-radius:12px;
-  border-top-right-radius:12px;
-}
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px;
+            margin-bottom: 18px
+        }
 
-/* título dentro da seção */
-.section-own h3{
-  text-align:center;
-  margin-top:-6px;        /* puxa pra perto da faixa */
-  margin-bottom:20px;
-  /* font-family:'FuturaHeavy'; */
-  color:var(--azul);
-  font-size:1.05rem;
-}
+        .form-row>div {
+            flex: 1 1 250px;
+            display: flex;
+            flex-direction: column
+        }
 
-</style>
+        .form-row .cnpj-field {
+            max-width: 320px
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: 6px
+        }
+
+        label span {
+            color: #888;
+            margin-left: 4px
+        }
+
+        input,
+        select {
+            padding: 11px;
+            border: 1px solid #c9d4e3;
+            border-radius: 6px;
+            font-size: .92em;
+            transition: border .25s
+        }
+
+        input:focus,
+        select:focus {
+            border-color: #005ca9;
+            outline: none
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 12px
+        }
+
+        button {
+            padding: 12px 28px;
+            background: #005ca9;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background .3s
+        }
+
+        button:hover {
+            background: #004a8a
+        }
+
+        button.loading {
+            position: relative;
+            pointer-events: none;
+            opacity: .7
+        }
+
+        button.loading::after {
+            content: "";
+            position: absolute;
+            right: 20px;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #fff;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin .8s linear infinite
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, .85);
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.1em;
+            color: #005ca9;
+            z-index: 2000
+        }
+
+        .overlay.hidden {
+            display: none
+        }
+
+        .spinner {
+            width: 42px;
+            height: 42px;
+            border: 4px solid #005ca9;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 1s linear infinite
+        }
+
+        #benchmarkContainer {
+            margin-top: 26px;
+            text-align: center
+        }
+
+        .percent-box {
+            font-size: 3.2rem;
+            font-family: 'FuturaHeavy';
+            color: #005ca9;
+            margin-bottom: 6px
+        }
+
+        .progress-bar {
+            width: 100%;
+            max-width: 440px;
+            height: 14px;
+            background: #e1ecf7;
+            border-radius: 7px;
+            margin: 0 auto 18px;
+            overflow: hidden
+        }
+
+        .progress-fill {
+            height: 100%;
+            width: 0;
+            background: #45b36b;
+            border-radius: inherit;
+            transition: width 1s
+        }
+
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+            justify-content: center;
+            margin-top: 12px
+        }
+
+        .card {
+            flex: 1 1 260px;
+            background: #f8fbff;
+            border: 1px solid #d5e1f2;
+            border-radius: 8px;
+            padding: 12px
+        }
+
+        .card h4 {
+            font-size: 1em;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #005ca9
+        }
+
+        .card p {
+            font-size: .9em;
+            margin: 2px 0;
+            color: #333
+        }
+
+        .msg {
+            padding: 14px;
+            background: #fff5d8;
+            border: 1px solid #ffeaa3;
+            border-radius: 6px;
+            color: #7f6614;
+            margin: 20px 0
+        }
+
+        .disclaimer {
+            font-size: .82em;
+            color: #5f6d7c;
+            text-align: center;
+            margin-top: 34px
+        }
+
+        /* — Seção dedicada aos contratos próprios — */
+        .section-own {
+            margin-top: 36px;
+            background: #f2f6ff;
+            border: 1px solid #d2defb;
+            border-radius: 12px;
+            padding: 24px 18px 28px;
+            position: relative;
+        }
+
+        .section-own::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: var(--azul);
+            border-top-left-radius: 12px;
+            border-top-right-radius: 12px;
+        }
+
+        .section-own h3 {
+            text-align: center;
+            margin-top: -6px;
+            margin-bottom: 20px;
+            color: var(--azul);
+            font-size: 1.05rem
+        }
+    </style>
 </head>
+
 <body>
-<header>Radar BNDES</header>
+    <header>Radar BNDES</header>
 
-<div class="container">
-    <h1>Consulta de Cliente</h1>
+    <div class="container">
+        <h1>Consulta de Cliente</h1>
 
-    <form id="radarForm">
-        <!-- Linha 1 -->
-        <div class="form-row">
-            <div class="cnpj-field">
-                <label for="cnpj">CNPJ<span>*</span></label>
-                <input type="text" id="cnpj" placeholder="00.000.000/0000-00" required>
+        <form id="radarForm">
+            <!-- Linha 1 -->
+            <div class="form-row">
+                <div class="cnpj-field">
+                    <label for="cnpj">CNPJ<span>*</span></label>
+                    <input type="text" id="cnpj" placeholder="00.000.000/0000-00" required>
+                </div>
             </div>
-        </div>
 
-        <!-- Linha 2 -->
-        <div class="form-row">
-            <div>
-                <label for="linha">Linha<span>*</span></label>
-                <select id="linha" required>
-                    <option value="">-- Selecione --</option>
-                    <option value="BNDES Giro">BNDES Giro</option>
-                    <option value="BNDES Finame">BNDES Finame</option>
-                    <option value="BNDES Finame Material">BNDES Finame Material</option>
-                </select>
+            <!-- Linha 2 -->
+            <div class="form-row">
+                <div>
+                    <label for="linha">Linha<span>*</span></label>
+                    <select id="linha" required>
+                        <option value="">-- Selecione --</option>
+                        <option value="BNDES Giro">BNDES Giro</option>
+                        <option value="BNDES Finame">BNDES Finame</option>
+                        <option value="BNDES Finame Material">BNDES Finame Material</option>
+                    </select>
+                </div>
+                <div>
+                    <label for="porte">Porte<span>*</span></label>
+                    <select id="porte" required>
+                        <option value="">-- Selecione --</option>
+                        <option value="Micro">Micro</option>
+                        <option value="Médio">Médio</option>
+                        <option value="Grande">Grande</option>
+                    </select>
+                </div>
             </div>
-            <div>
-                <label for="porte">Porte<span>*</span></label>
-                <select id="porte" required>
-                    <option value="">-- Selecione --</option>
-                    <option value="Micro">Micro</option>
-                    <option value="Médio">Médio</option>
-                    <option value="Grande">Grande</option>
-                </select>
+
+            <!-- Linha 3 -->
+            <div class="form-row">
+                <div>
+                    <label for="spreadCaixa">Spread Caixa % a.a<span>*</span></label>
+                    <input type="text" id="spreadCaixa" placeholder="0,00" required>
+                </div>
+                <div>
+                    <label for="spreadBNDES">Spread BNDES % a.a<span>*</span></label>
+                    <input type="text" id="spreadBNDES" placeholder="0,00" required>
+                </div>
             </div>
-        </div>
 
-        <!-- Linha 3 -->
-        <div class="form-row">
-            <div>
-                <label for="spreadCaixa">Spread Caixa % a.a<span>*</span></label>
-                <input type="text" id="spreadCaixa" placeholder="0,00" required>
-            </div>
-            <div>
-                <label for="spreadBNDES">Spread BNDES % a.a<span>*</span></label>
-                <input type="text" id="spreadBNDES" placeholder="0,00" required>
-            </div>
-        </div>
+            <!-- Botão -->
+            <div class="button-container"><button id="submitBtn" type="submit">Enviar</button></div>
+        </form>
 
-        <!-- Botão -->
-        <div class="button-container"><button id="submitBtn" type="submit">Enviar</button></div>
-    </form>
+        <!-- Benchmark & Resultado -->
+        <div id="benchmarkContainer"></div>
+        <div id="resultadoContainer"></div>
 
-    <!-- Benchmark & Resultado -->
-    <div id="benchmarkContainer"></div>
-    <div id="resultadoContainer"></div>
+        <!-- Disclaimer -->
+        <p id="disclaimer" class="disclaimer"></p>
+    </div>
 
-    <!-- Disclaimer -->
-    <p id="disclaimer" class="disclaimer"></p>
-</div>
+    <!-- Overlay -->
+    <div id="overlay" class="overlay hidden">
+        <div class="spinner"></div>
+        <p>Analisando mercado...</p>
+    </div>
 
-<!-- Overlay -->
-<div id="overlay" class="overlay hidden">
-    <div class="spinner"></div>
-    <p>Analisando mercado...</p>
-</div>
+    <!-- ===================== SCRIPTS ===================== -->
+    <script>
+        (function () {
+            const form = document.getElementById('radarForm');
+            const btn = document.getElementById('submitBtn');
+            const resultado = document.getElementById('resultadoContainer');
+            const benchmark = document.getElementById('benchmarkContainer');
+            const overlay = document.getElementById('overlay');
+            const disclaimer = document.getElementById('disclaimer');
 
-<!-- ===================== SCRIPTS ===================== -->
-<script>
+            /* ------- Máscaras ------- */
+            document.getElementById('cnpj').addEventListener('input', maskCNPJ);
+            ['spreadCaixa', 'spreadBNDES'].forEach(id => {
+                document.getElementById(id).addEventListener('input', maskPercent);
+            });
+            function maskCNPJ() {
+                let v = this.value.replace(/\D/g, '').slice(0, 14);
+                v = v.replace(/(\d{2})(\d)/, '$1.$2')
+                    .replace(/(\d{3})(\d)/, '$1.$2')
+                    .replace(/(\d{3})(\d)/, '$1/$2')
+                    .replace(/(\d{4})(\d{1,2})$/, '$1-$2');
+                this.value = v;
+            }
+            function maskPercent() {
+                let v = this.value.replace(/\D/g, '');
+                if (!v) { this.value = ''; return; }
+                if (v.length > 6) v = v.slice(0, 6);
+                const num = parseInt(v, 10) / 100;
+                this.value = num.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            }
 
+            window.addEventListener('DOMContentLoaded', () => {
+                /* define valores brutos… depois aplica as máscaras */
+                const cnpj = document.getElementById('cnpj');
+                const linha = document.getElementById('linha');
+                const porte = document.getElementById('porte');
+                const spreadCaixa = document.getElementById('spreadCaixa');
+                const spreadBNDES = document.getElementById('spreadBNDES');
 
+                cnpj.value = '09596437000104';
+                maskCNPJ.call(cnpj);
 
-(function(){
-const form       = document.getElementById('radarForm');
-const btn        = document.getElementById('submitBtn');
-const resultado  = document.getElementById('resultadoContainer');
-const benchmark  = document.getElementById('benchmarkContainer');
-const overlay    = document.getElementById('overlay');
-const disclaimer = document.getElementById('disclaimer');
+                linha.value = 'BNDES Finame';
+                porte.value = 'Micro';
 
-/* ------- Máscaras ------- */
-document.getElementById('cnpj').addEventListener('input', maskCNPJ);
-['spreadCaixa','spreadBNDES'].forEach(id=>{
-    document.getElementById(id).addEventListener('input', maskPercent);
-});
-function maskCNPJ(){
-    let v=this.value.replace(/\D/g,'').slice(0,14);
-    v=v.replace(/(\d{2})(\d)/,'$1.$2')
-       .replace(/(\d{3})(\d)/,'$1.$2')
-       .replace(/(\d{3})(\d)/,'$1/$2')
-       .replace(/(\d{4})(\d{1,2})$/,'$1-$2');
-    this.value=v;
-}
-function maskPercent(){
-    let v=this.value.replace(/\D/g,'');
-    if(!v){this.value='';return;}
-    if(v.length>6)v=v.slice(0,6);
-    const num=parseInt(v,10)/100;
-    this.value=num.toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-}
+                spreadCaixa.value = '370';
+                maskPercent.call(spreadCaixa);
 
-window.addEventListener('DOMContentLoaded', () => {
-  /* define valores brutos… depois aplica as máscaras */
-  const cnpj          = document.getElementById('cnpj');
-  const linha         = document.getElementById('linha');
-  const porte         = document.getElementById('porte');
-  const spreadCaixa   = document.getElementById('spreadCaixa');
-  const spreadBNDES   = document.getElementById('spreadBNDES');
+                spreadBNDES.value = '145';
+                maskPercent.call(spreadBNDES);
+            });
 
-  cnpj.value        = '09596437000104';          // sem formatação
-  maskCNPJ.call(cnpj);                           // aplica máscara
+            /* ------- Fake APIs ------- */
+            const sampleContracts = [
+                { cliente: 'NOVA FORNECEDORA CORINTHIANS LTDA', valor_da_operacao_em_reais: 9000, juros: 8.0, data_da_contratacao: '17/01/2011', instituicao_financeira_credenciada: 'BANCO BRADESCO S.A.' },
+                { cliente: 'NOVA FORNECEDORA CORINTHIANS LTDA', valor_da_operacao_em_reais: 99000, juros: 8.0, data_da_contratacao: '07/02/2011', instituicao_financeira_credenciada: 'BANCO BRADESCO S.A.' },
+                { cliente: 'NOVA FORNECEDORA CORINTHIANS LTDA', valor_da_operacao_em_reais: 82952, juros: 9.5, data_da_contratacao: '28/04/2015', instituicao_financeira_credenciada: 'BANCO VOLKSWAGEN S.A.' }
+            ];
 
-  linha.value       = 'BNDES Finame';
-  porte.value       = 'Micro';
+            /* >>>> NOVO JSON COM OUTRAS EMPRESAS (similarContracts) <<<< */
+            const similarContractsData = [
+                { cliente: 'ACME INDÚSTRIA DE PLÁSTICOS LTDA', valor_da_operacao_em_reais: 85000, juros: 5.15, data_da_contratacao: '12/03/2024', instituicao_financeira_credenciada: 'BANCO DO BRASIL S.A.' },
+                { cliente: 'SOLAR ENERGIA VERDE EIRELI', valor_da_operacao_em_reais: 120000, juros: 5.15, data_da_contratacao: '04/08/2023', instituicao_financeira_credenciada: 'BANCO SANTANDER (BRASIL) S.A.' },
+                { cliente: 'FÁBRICA DE BICICLETAS PEDAL FORTE S/A', valor_da_operacao_em_reais: 45000, juros: 5.15, data_da_contratacao: '15/11/2022', instituicao_financeira_credenciada: 'ITAÚ UNIBANCO S.A.' },
+            ];
 
-  spreadCaixa.value = '250';                     // “2,50 % a.a.”
-  maskPercent.call(spreadCaixa);
+            function fakeContractsApi(payload) {
+                const normalize = s => s.replace(/\D/g, '');
+                return new Promise(r => setTimeout(
+                    () => r({ ok: true, data: normalize(payload.cnpj) === '09596437000104' ? sampleContracts : [] }), 800));
+            }
 
-  spreadBNDES.value = '140';                     // “1,40 % a.a.”
-  maskPercent.call(spreadBNDES);
-});
+            /* fakeBenchmarkApi AGORA USA similarContractsData */
+            function fakeBenchmarkApi() {
+                return new Promise(r => setTimeout(() => {
+                    const better = Math.floor(Math.random() * 9) + 90;          // 90–98 %
+                    const shuffled = [...similarContractsData].sort(() => 0.5 - Math.random());
+                    r({ ok: true, betterPercent: better, similarContracts: shuffled.slice(0, 3) });
+                }, 1100));
+            }
 
-/* ------- Fake APIs ------- */
-const sampleContracts=[
- {cliente:'NOVA FORNECEDORA CORINTHIANS LTDA',valor_da_operacao_em_reais:9000,juros:8.0,data_da_contratacao:'17/01/2011',instituicao_financeira_credenciada:'BANCO BRADESCO S.A.'},
- {cliente:'NOVA FORNECEDORA CORINTHIANS LTDA',valor_da_operacao_em_reais:99000,juros:8.0,data_da_contratacao:'07/02/2011',instituicao_financeira_credenciada:'BANCO BRADESCO S.A.'},
- {cliente:'NOVA FORNECEDORA CORINTHIANS LTDA',valor_da_operacao_em_reais:82952,juros:9.5,data_da_contratacao:'28/04/2015',instituicao_financeira_credenciada:'BANCO VOLKSWAGEN S.A.'}
-];
-function fakeContractsApi(payload){
-    const normalize=s=>s.replace(/\D/g,'');
-    return new Promise(r=>setTimeout(()=>r({ok:true,data:normalize(payload.cnpj)==='09596437000104'?sampleContracts:[]}),800));
-}
-function fakeBenchmarkApi(){
-    return new Promise(r=>setTimeout(()=>{
-        const better=Math.floor(Math.random()*9)+90; // 90~ %
-        r({ok:true,betterPercent:better,similarContracts:sampleContracts.slice(0,2)});
-    },1100));
-}
-function fakeMetaApi(){
-    return new Promise(r=>setTimeout(()=>r({ok:true,updatedAt:'31/05/2025'}),600));
-}
+            function fakeMetaApi() {
+                return new Promise(r => setTimeout(() => r({ ok: true, updatedAt: '31/05/2025' }), 600));
+            }
 
-/* ------- Util ------- */
-function animateCounter(el,target){
-    let current=0;
-    const step=Math.ceil(target/40);
-    const timer=setInterval(()=>{
-        current+=step;
-        if(current>=target){current=target;clearInterval(timer);}
-        el.textContent=`${current}%`;
-    },20);
-}
-function money(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL',maximumFractionDigits:0});}
+            /* ------- Util ------- */
+            function animateCounter(el, target) {
+                let current = 0;
+                const step = Math.ceil(target / 40);
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) { current = target; clearInterval(timer); }
+                    el.textContent = `${current}%`;
+                }, 20);
+            }
+            function money(v) { return v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 }); }
 
-/* ------- Disclaimer ------- */
-(async ()=>{            // chama ao carregar
-    const meta=await fakeMetaApi();
-    if(meta.ok){
-        disclaimer.textContent=`Informações obtidas através dos dados abertos BNDES – atualizado em ${meta.updatedAt}`;
-    }
-})();
+            /* ------- Disclaimer ------- */
+            (async () => {
+                const meta = await fakeMetaApi();
+                if (meta.ok) {
+                    disclaimer.textContent = `Informações obtidas através dos dados abertos BNDES – atualizado em ${meta.updatedAt}`;
+                }
+            })();
 
-/* ------- Submit ------- */
-form.addEventListener('submit',async e=>{
-    e.preventDefault();
-    if(!form.checkValidity()){form.reportValidity();return;}
+            /* ------- Submit ------- */
+            form.addEventListener('submit', async e => {
+                e.preventDefault();
+                if (!form.checkValidity()) { form.reportValidity(); return; }
 
-    benchmark.innerHTML='';resultado.innerHTML='';
-    overlay.classList.remove('hidden');btn.classList.add('loading');
+                benchmark.innerHTML = ''; resultado.innerHTML = '';
+                overlay.classList.remove('hidden'); btn.classList.add('loading');
 
-    const payload={
-        cnpj:document.getElementById('cnpj').value,
-        linha:document.getElementById('linha').value,
-        porte:document.getElementById('porte').value,
-        spreadCaixa:parseFloat(document.getElementById('spreadCaixa').value.replace('.','').replace(',','.'))||0,
-        spreadBNDES:parseFloat(document.getElementById('spreadBNDES').value.replace('.','').replace(',','.'))||0
-    };
+                const payload = {
+                    cnpj: document.getElementById('cnpj').value,
+                    linha: document.getElementById('linha').value,
+                    porte: document.getElementById('porte').value,
+                    spreadCaixa: parseFloat(document.getElementById('spreadCaixa').value.replace('.', '').replace(',', '.')) || 0,
+                    spreadBNDES: parseFloat(document.getElementById('spreadBNDES').value.replace('.', '').replace(',', '.')) || 0
+                };
 
-    try{
-        const [contractsResp,benchResp]=await Promise.all([
-            fakeContractsApi(payload),fakeBenchmarkApi()
-        ]);
+                try {
+                    const [contractsResp, benchResp] = await Promise.all([
+                        fakeContractsApi(payload), fakeBenchmarkApi()
+                    ]);
 
-        overlay.classList.add('hidden');btn.classList.remove('loading');
+                    overlay.classList.add('hidden'); btn.classList.remove('loading');
 
-        /* ---- Benchmark ---- */
-        if(benchResp.ok){
-            const totalTaxa=(payload.spreadCaixa+payload.spreadBNDES)
-                            .toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2});
-            benchmark.innerHTML=`
+                    /* ---- Benchmark ---- */
+                    if (benchResp.ok) {
+                        const totalTaxa = (payload.spreadCaixa + payload.spreadBNDES)
+                            .toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+                        benchmark.innerHTML = `
                 <div class="percent-box" id="percentBox">0%</div>
                 <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
                 <p>Sua taxa total de <strong>${totalTaxa}% a.a.</strong><br>
@@ -295,49 +511,48 @@ form.addEventListener('submit',async e=>{
                 <h3 style="margin-top:22px">Empresas que contrataram nesse spread</h3>
                 <div class="cards" id="cardsSimilares"></div>
             `;
-            animateCounter(document.getElementById('percentBox'),benchResp.betterPercent);
-            document.getElementById('progressFill').style.width=benchResp.betterPercent+'%';
+                        animateCounter(document.getElementById('percentBox'), benchResp.betterPercent);
+                        document.getElementById('progressFill').style.width = benchResp.betterPercent + '%';
 
-            const cardsS=document.getElementById('cardsSimilares');
-            benchResp.similarContracts.forEach(c=>{
-                cardsS.insertAdjacentHTML('beforeend',cardHTML(c));
+                        const cardsS = document.getElementById('cardsSimilares');
+                        benchResp.similarContracts.forEach(c => cardsS.insertAdjacentHTML('beforeend', cardHTML(c)));
+                    } else {
+                        benchmark.innerHTML = '<div class="msg">Não foi possível calcular o benchmark.</div>';
+                    }
+
+                    /* ---- Contratos do CNPJ ---- */
+                    if (!contractsResp.ok) {
+                        resultado.innerHTML = '<div class="msg">Erro ao buscar contratos.</div>';
+                        return;
+                    }
+                    if (!contractsResp.data.length) {
+                        resultado.innerHTML = '<div class="msg">Este CNPJ não possui contratos registrados no BNDES.</div>';
+                        return;
+                    }
+                    resultado.innerHTML = '<section class="section-own"><h3 style="margin:26px 0 10px;text-align:center">Contratos existentes do CNPJ, Linha e Porte consultado</h3><div class="cards" id="cardsCNPJ"></div></section>';
+                    const cardsC = document.getElementById('cardsCNPJ');
+                    contractsResp.data.forEach(c => cardsC.insertAdjacentHTML('beforeend', cardHTML(c)));
+
+                } catch (err) {
+                    overlay.classList.add('hidden'); btn.classList.remove('loading');
+                    benchmark.innerHTML = resultado.innerHTML = '<div class="msg">Erro inesperado. Tente novamente.</div>';
+                    console.error(err);
+                }
             });
-        }else{
-            benchmark.innerHTML='<div class="msg">Não foi possível calcular o benchmark.</div>';
-        }
 
-        /* ---- Contratos do CNPJ ---- */
-        if(!contractsResp.ok){
-            resultado.innerHTML='<div class="msg">Erro ao buscar contratos.</div>';
-            return;
-        }
-        if(!contractsResp.data.length){
-            resultado.innerHTML='<div class="msg">Este CNPJ não possui contratos registrados no BNDES.</div>';
-            return;
-        }
-        resultado.innerHTML='<section class="section-own"><h3 style="margin:26px 0 10px;text-align:center">Contratos existentes do CNPJ, Linha e Porte consultado</h3><div class="cards" id="cardsCNPJ"></div></section>';
-        const cardsC=document.getElementById('cardsCNPJ');
-        contractsResp.data.forEach(c=>cardsC.insertAdjacentHTML('beforeend',cardHTML(c)));
-
-    }catch(err){
-        overlay.classList.add('hidden');btn.classList.remove('loading');
-        benchmark.innerHTML=resultado.innerHTML='<div class="msg">Erro inesperado. Tente novamente.</div>';
-        console.error(err);
-    }
-});
-
-/* ------- Card template ------- */
-function cardHTML(c){
-    return `
+            /* ------- Card template ------- */
+            function cardHTML(c) {
+                return `
         <div class="card">
             <h4>${c.cliente}</h4>
             <p><strong>Valor:</strong> ${money(c.valor_da_operacao_em_reais)}</p>
-            <p><strong>Taxa:</strong> ${c.juros.toLocaleString('pt-BR',{minimumFractionDigits:2})}% a.a.</p>
+            <p><strong>Taxa:</strong> ${c.juros.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}% a.a.</p>
             <p><strong>Data:</strong> ${c.data_da_contratacao}</p>
             <p><strong>Banco:</strong> ${c.instituicao_financeira_credenciada}</p>
         </div>`;
-}
-})();
-</script>
+            }
+        })();
+    </script>
 </body>
+
 </html>
