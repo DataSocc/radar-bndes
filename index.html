@@ -526,7 +526,7 @@
    A maior taxa é de <strong>${fmt(s.maxRate)}% a.a.</strong> no <strong>${s.maxBank}</strong>
 </p>
 
-<h3 style="margin-top:22px">Empresas que contrataram nesse spread</h3>
+<h3 style="margin-top:22px">Empresas que contrataram nesse spread para essa Linha e Porte</h3>
 <div class="cards" id="cardsSimilares"></div>`;
                         animateCounter(document.getElementById('percentBox'), benchResp.betterPercent);
                         document.getElementById('progressFill').style.width = benchResp.betterPercent + '%';
@@ -549,7 +549,7 @@
                     resultado.innerHTML = `
 <section class="section-own">
     <h3 style="margin:26px 0 10px;text-align:center">
-        Contratos existentes do CNPJ, Linha e Porte consultado
+        Contratos existentes do CNPJ para a Linha e Porte consultado
     </h3>
     <div class="cards" id="cardsCNPJ"></div>
 </section>`;
