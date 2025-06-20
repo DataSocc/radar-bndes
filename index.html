@@ -480,7 +480,7 @@
             (async () => {
                 const meta = await fakeMetaApi();
                 if (meta.ok)
-                    disclaimer.textContent = `Informações obtidas através dos dados abertos BNDES – atualizado em ${meta.updatedAt}`;
+                    disclaimer.textContent = `Informações obtidas através dos dados abertos BNDES – atualizado em ${meta.updatedAt}, utilizando últimos 12 meses a partir da atualização`;
             })();
 
             /* ----- Submit ----- */
